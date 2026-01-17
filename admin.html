@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/ico" href="assets/GETSTARTEDLOGO.ico">
+    <title>Admin Panel - Property Management</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- Login Overlay -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="assets/GETSTARTEDLOGO.ico" alt="Logo">
+                <h2>Admin Access</h2>
+                <p>Enter password to continue</p>
+            </div>
+            <form id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="adminPassword">
+                        <i class="fa-solid fa-lock"></i> Password
+                    </label>
+                    <div class="password-input-wrapper">
+                        <input type="password" id="adminPassword" placeholder="Enter admin password" required autocomplete="current-password">
+                        <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
+                            <i class="fa-solid fa-eye" id="eyeIcon"></i>
+                        </button>
+                    </div>
+                    <p class="error-message" id="loginError"></p>
+                </div>
+                <button type="submit" class="btn btn-primary btn-login">
+                    <i class="fa-solid fa-right-to-bracket"></i> Login
+                </button>
+            </form>
+            <div class="security-notice">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Protected with encrypted authentication</span>
+            </div>
+            <a href="home.html" class="back-link">
+                <i class="fa-solid fa-arrow-left"></i> Back to Site
+            </a>
+        </div>
+    </div>
+
+    <!-- Admin Content (hidden until authenticated) -->
+    <div class="admin-wrapper" id="adminWrapper" style="display: none;">
+        <header class="header">
+            <div class="header-left">
+                <img src="assets/GETSTARTEDLOGO.ico" alt="Logo">
+                <h1>Admin Panel</h1>
+            </div>
+            <div class="header-right">
+                <button class="logout-btn" onclick="handleLogout()">
+                    <i class="fa-solid fa-sign-out-alt"></i> Logout
+                </button>
+                <a href="home.html" class="back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Site
+                </a>
+            </div>
+        </header>
+
+        <main class="main-content">
+        <aside class="sidebar">
+            <nav class="nav-menu">
+                <button class="nav-item active" data-section="properties">
+                    <i class="fa-solid fa-building"></i>
+                    <span>Properties</span>
+                </button>
+                <button class="nav-item" data-section="add-property">
+                    <i class="fa-solid fa-plus-circle"></i>
+                    <span>Add Property</span>
+                </button>
+                <button class="nav-item" data-section="settings">
+                    <i class="fa-solid fa-cog"></i>
+                    <span>Settings</span>
+                </button>
+            </nav>
+        </aside>
+
+        <div class="content-area">
+            <!-- Properties Section -->
+            <section id="properties" class="section active">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-building"></i> All Properties</h2>
+                    <div class="header-actions">
+                        <input type="text" id="searchProperty" placeholder="Search properties..." class="search-input">
+                        <button class="btn btn-primary" onclick="showSection('add-property')">
+                            <i class="fa-solid fa-plus"></i> Add New
+                        </button>
+                    </div>
+                </div>
+                <div class="properties-grid" id="propertiesGrid">
+                    <!-- Properties will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Add Property Section -->
+            <section id="add-property" class="section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-plus-circle"></i> Add New Property</h2>
+                </div>
+                <form id="propertyForm" class="property-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="propertyLocation">Location *</label>
+                            <input type="text" id="propertyLocation" placeholder="e.g., London E7" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyAddress">Full Address *</label>
+                            <input type="text" id="propertyAddress" placeholder="e.g., 14 Amis Walk, Bristol BS7" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyBeds">Bedrooms *</label>
+                            <input type="number" id="propertyBeds" min="1" max="20" placeholder="4" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyBaths">Bathrooms *</label>
+                            <input type="number" id="propertyBaths" min="1" max="20" placeholder="2" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyRent">Monthly Rent (£) *</label>
+                            <input type="number" id="propertyRent" min="1" placeholder="2500" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyDeposit">Deposit (£) *</label>
+                            <input type="number" id="propertyDeposit" min="0" placeholder="2884" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyContract">Contract Length</label>
+                            <input type="text" id="propertyContract" placeholder="e.g., 3 to 5 Years">
+                        </div>
+                        <div class="form-group">
+                            <label for="propertyAvailability">Availability</label>
+                            <select id="propertyAvailability">
+                                <option value="Available Now!">Available Now!</option>
+                                <option value="Coming Soon">Coming Soon</option>
+                                <option value="Under Offer">Under Offer</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="propertyDescription">Description *</label>
+                            <textarea id="propertyDescription" rows="4" placeholder="Enter property description..." required></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="propertyImages">Image Folder Name</label>
+                            <input type="text" id="propertyImages" placeholder="e.g., BS7 (folder name in assets)">
+                            <small>Enter the folder name inside 'assets' folder where images are stored</small>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                            <i class="fa-solid fa-times"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-save"></i> Save Property
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="section">
+                <div class="section-header">
+                    <h2><i class="fa-solid fa-cog"></i> Settings</h2>
+                </div>
+                <div class="settings-content">
+                    <div class="setting-card">
+                        <h3><i class="fa-solid fa-database"></i> Data Management</h3>
+                        <p>Export or import property data for backup purposes.</p>
+                        <div class="setting-actions">
+                            <button class="btn btn-secondary" onclick="exportData()">
+                                <i class="fa-solid fa-download"></i> Export Data
+                            </button>
+                            <label class="btn btn-secondary">
+                                <i class="fa-solid fa-upload"></i> Import Data
+                                <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-card">
+                        <h3><i class="fa-solid fa-code"></i> Generate Property Files</h3>
+                        <p>Generate HTML files for all properties in the system.</p>
+                        <div class="setting-actions">
+                            <button class="btn btn-primary" onclick="generateAllPropertyFiles()">
+                                <i class="fa-solid fa-file-code"></i> Generate Files
+                            </button>
+                        </div>
+                    </div>
+                    <div class="setting-card warning">
+                        <h3><i class="fa-solid fa-triangle-exclamation"></i> Danger Zone</h3>
+                        <p>Delete all properties. This action cannot be undone.</p>
+                        <div class="setting-actions">
+                            <button class="btn btn-danger" onclick="clearAllData()">
+                                <i class="fa-solid fa-trash"></i> Clear All Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-edit"></i> Edit Property</h3>
+                <button class="close-modal" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="editPropertyForm" class="property-form">
+                <input type="hidden" id="editPropertyId">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="editPropertyLocation">Location *</label>
+                        <input type="text" id="editPropertyLocation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPropertyAddress">Full Address *</label>
+                        <input type="text" id="editPropertyAddress" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPropertyBeds">Bedrooms *</label>
+                        <input type="number" id="editPropertyBeds" min="1" max="20" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPropertyBaths">Bathrooms *</label>
+                        <input type="number" id="editPropertyBaths" min="1" max="20" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPropertyRent">Monthly Rent (£) *</label>
+                        <input type="number" id="editPropertyRent" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPropertyDeposit">Deposit (£) *</label>
+                        <input type="number" id="editPropertyDeposit" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPropertyContract">Contract Length</label>
+                        <input type="text" id="editPropertyContract">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPropertyAvailability">Availability</label>
+                        <select id="editPropertyAvailability">
+                            <option value="Available Now!">Available Now!</option>
+                            <option value="Coming Soon">Coming Soon</option>
+                            <option value="Under Offer">Under Offer</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="editPropertyDescription">Description *</label>
+                        <textarea id="editPropertyDescription" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="editPropertyImages">Image Folder Name</label>
+                        <input type="text" id="editPropertyImages">
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">
+                        <i class="fa-solid fa-times"></i> Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-save"></i> Update Property
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-check-circle"></i>
+        <span id="toastMessage">Success!</span>
+    </div>
+
+    </div><!-- End admin-wrapper -->
+
+    <script src="admin.js"></script>
+</body>
+</html>

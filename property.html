@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Property Details - Getting Started in Property" />
+    <meta name="theme-color" content="#1e3a5f" />
+    
+    <title>Property Details | Getting Started in Property</title>
+    
+    <!-- Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="icon" type="image/x-icon" href="assets/GETSTARTEDLOGO.ico" />
+    
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="property.css" />
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header" onclick="window.location.href='home.html'">
+        <img src="assets/GETSTARTEDLOGO.ico" alt="Logo" />
+        <p>ettingstartedinproperty</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Loading State -->
+        <div class="loading-state" id="loadingState">
+            <div class="loading-spinner"></div>
+            <p>Loading property details...</p>
+        </div>
+
+        <!-- Error State -->
+        <div class="error-state hidden" id="errorState">
+            <i class="fa-solid fa-house-circle-exclamation"></i>
+            <h2>Property Not Found</h2>
+            <p>The property you're looking for doesn't exist or has been removed.</p>
+            <a href="home.html" class="btn-primary">
+                <i class="fa-solid fa-arrow-left"></i> Back to Listings
+            </a>
+        </div>
+
+        <!-- Property Content (populated by JS) -->
+        <div id="propertyContent" class="hidden">
+            <!-- Image Slider -->
+            <section class="swiper mySwiper">
+                <div class="swiper-wrapper" id="swiperWrapper">
+                    <!-- Slides added dynamically -->
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </section>
+
+            <!-- Property Details -->
+            <section class="about">
+                <div class="price">
+                    <p id="propertyPrice">£0 pcm</p>
+                </div>
+                <div class="location" id="propertyLocation">Loading...</div>
+                
+                <div class="icons">
+                    <div>
+                        <i class="fa-solid fa-bed"></i>
+                        <span id="propertyBeds">0 beds</span>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-bath"></i>
+                        <span id="propertyBaths">0 baths</span>
+                    </div>
+                </div>
+                
+                <div class="availability" id="propertyAvailability">Available Now!</div>
+                
+                <div class="abt">
+                    <div>Deposit:</div>
+                    <div id="propertyDeposit">£0</div>
+                </div>
+                <div class="abt">
+                    <div>Contract Length:</div>
+                    <div id="propertyContract">Flexible</div>
+                </div>
+
+                <div class="description" id="propertyDescription">
+                    Loading description...
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="details">
+                    <a href="mailto:info@gettingstartedinproperty.co.uk">
+                        <button class="blue">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>Send Email</span>
+                        </button>
+                    </a>
+                    <a href="tel:0203 828 9295">
+                        <button class="white">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>Contact Us</span>
+                        </button>
+                    </a>
+                    <button class="white" onclick="reserveDeal()">
+                        <i class="fas fa-handshake" aria-hidden="true"></i>
+                        <span>Reserve Deal</span>
+                    </button>
+                    <button class="green" onclick="requestCallback()">
+                        <i class="fas fa-headset" aria-hidden="true"></i>
+                        <span>Request Callback</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="socials">
+            <a href="https://www.facebook.com/profile.php?id=61551096562233" target="_blank" rel="noopener" class="social-link">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+            <a href="https://www.instagram.com/gettingstartedinproperty/" target="_blank" rel="noopener" class="social-link">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://api.whatsapp.com/send?phone=447522256422" target="_blank" rel="noopener" class="social-link">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+        </div>
+        <div class="text">
+            <p>
+                * Viewings by appointment · Management available · Contract setup provided · 
+                2 hours free property mentoring included
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="property.js"></script>
+</body>
+</html>
