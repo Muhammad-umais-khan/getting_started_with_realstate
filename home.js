@@ -259,7 +259,7 @@ class PropertyUI {
 }
 
 // ===== Initialize Application =====
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   const store = new PropertyStore();
   const ui = new PropertyUI(store);
   await ui.init();
